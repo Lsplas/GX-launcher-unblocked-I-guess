@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GX Launcher Embed</title>
+  <meta charset="UTF-8">
+  <title>GX Launcher</title>
 
   <style>
     html, body {
@@ -11,22 +10,90 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: black;
+      background: #000;
+      font-family: Arial, sans-serif;
     }
 
-    iframe {
-      width: 100vw;
-      height: 100vh;
+    #frame {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       border: none;
+    }
+
+    #fallback {
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      background: linear-gradient(135deg,#111,#222,#000);
+      text-align: center;
+      padding: 20px;
+    }
+
+    button {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      background: #00ff99;
+      color: black;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
-  <iframe
-    src="https://xxj0nxx.github.io/GX-Launcher/"
-    allowfullscreen
-  ></iframe>
+<iframe
+  id="frame"
+  src="https://xxj0nxx.github.io/GX-Launcher/"
+  allowfullscreen>
+</iframe>
+
+<div id="fallback">
+  <h1>GX Launcher</h1>
+  <p>This site blocks iframe embedding.</p>
+
+  <button onclick="openFullscreen()">
+    Open Fullscreen
+  </button>
+</div>
+
+<script>
+  const frame = document.getElementById("frame");
+
+  frame.onerror = () => {
+    document.getElementById("fallback").style.display = "flex";
+  };
+
+  setTimeout(() => {
+    try {
+      const test = frame.contentWindow.location.href;
+    } catch {
+      document.getElementById("fallback").style.display = "flex";
+    }
+  }, 3000);
+
+  function openFullscreen() {
+    const win = window.open(
+      "https://xxj0nxx.github.io/GX-Launcher/",
+      "_blank"
+    );
+
+    if (win) {
+      win.focus();
+    }
+  }
+</script>
 
 </body>
 </html>
